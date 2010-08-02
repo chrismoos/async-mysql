@@ -70,15 +70,6 @@ module AsyncMysql
       return (@server_information[:server_capabilities] & Constants::CAPABILITIES[name]) != 0
     end
     
-    private
-    
-    def do_query(str, streaming, &block)
-      @packet_number = 0
-      send_command_packet(3, str)
-      @substate = SubState::WAIT_RESULT_SET_HEADER
-      @requests << {:streaming => streaming, :callback => block}
-    end
-    
     # Connection State
     
     def post_init
@@ -90,10 +81,16 @@ module AsyncMysql
     def unbind
       log.debug "disconnected"
     end
-
-
     
+    private
     
+    def do_query(str, streaming, &block)
+      @packet_number = 0
+      send_command_packet(3, str)
+      @substate = SubState::WAIT_RESULT_SET_HEADER
+      @requests << {:streaming => streaming, :callback => block}
+    end
+
     def send_packet(data)
       size = [data.length].pack('V')
       
@@ -118,6 +115,7 @@ module AsyncMysql
         msg = error_info[4]
         
         log.debug "handshake_init(): error: #{errno}, sqlstate: #{sqlstate}, msg: #{msg}"
+        raise AsyncMysql::ConnectionException.new("Unable to login to mysql server: #{msg}")
       else
         log.debug "handshake_init(): unknown result type"
       end

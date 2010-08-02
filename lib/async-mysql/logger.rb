@@ -1,8 +1,8 @@
 require 'logger'
 
-module AsyncMysql
+module AsyncMysql  
   module Log   
-    @log_level = Logger::DEBUG
+    @log_level = Logger::INFO
     @log_location = STDOUT
     @log_classes = []
     
