@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "async-mysql"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = "Asynchronous MySQL Client"
+    gem.description = "Asynchronous MySQL Client"
     gem.email = "chris@tech9computers.com"
     gem.homepage = "http://github.com/chris.moos/async-mysql"
     gem.authors = ["Chris Moos"]
