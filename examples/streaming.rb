@@ -1,5 +1,5 @@
 # 
-# This example shows how to run a query that gets a callback when the full result set is available.
+# This example shows how to run a query that gets a callback as the results become available.
 #
 
 require 'rubygems'
