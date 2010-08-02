@@ -248,6 +248,8 @@ module AsyncMysql
         value, packet = get_length_binary(packet)
         row.data << value
       end
+      
+      row.finalize
  
       if current_request[:streaming]
         current_request[:callback].call(row)
@@ -265,6 +267,12 @@ module AsyncMysql
       case resultType
       when 0
         log.debug "process_command(): ok"
+        
+        current_request[:callback].call(:ok)
+        
+        @requests = @requests[1..(@requests.length - 1)]
+        
+        @substate = SubState::WAIT_RESULT_SET_HEADER if not @requests[0].nil?
       when 0xff
         error_info = packet.unpack('CvCa5Z*')
         
@@ -273,6 +281,10 @@ module AsyncMysql
         msg = error_info[4]
         
         log.debug "process_command(): error: #{errno}, sqlstate: #{sqlstate}, msg: #{msg}"
+        
+        current_request[:callback].call({:error => {:errno => errno, :sqlstate => sqlstate, :msg => msg}})
+        @requests = @requests[1..(@requests.length - 1)]
+        @substate = SubState::WAIT_RESULT_SET_HEADER if not @requests[0].nil?
       else
         # Process a result set packet
         case @substate 

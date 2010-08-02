@@ -2,7 +2,7 @@ require 'logger'
 
 module AsyncMysql  
   module Log   
-    @log_level = Logger::INFO
+    @log_level = Logger::DEBUG
     @log_location = STDOUT
     @log_classes = []
     
