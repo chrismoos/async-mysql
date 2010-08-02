@@ -1,6 +1,9 @@
 ## MAC OS
 .DS_Store
 
+.yardoc
+doc
+
 ## TEXTMATE
 *.tmproj
 tmtags

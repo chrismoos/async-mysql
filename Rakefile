@@ -10,7 +10,6 @@ begin
     gem.email = "chris@tech9computers.com"
     gem.homepage = "http://github.com/chris.moos/async-mysql"
     gem.authors = ["Chris Moos"]
-    gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
